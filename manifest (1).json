@@ -1,0 +1,11 @@
+{
+  "name": "Speech Frameworks for Leaders",
+  "short_name": "Speech Leaders",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#EEEDFE",
+  "theme_color": "#3C3489",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

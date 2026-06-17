@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Speech Frameworks for Leaders</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3C3489">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#FBFAF8;color:#1A1A1A}
+.wrap{max-width:680px;margin:0 auto;padding:1rem 1rem 3rem}
+.app-header{padding:1rem 0 .5rem;text-align:center}
+.app-header h1{font-size:18px;font-weight:600;color:#3C3489}
+.app-header p{font-size:12px;color:#888;margin-top:2px}
+.sect-label{font-size:11px;font-weight:500;color:#999;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{padding:6px 13px;border-radius:99px;border:0.5px solid #DDD;background:#fff;color:#555;font-size:12px;font-weight:500;cursor:pointer}
+.pill:active{transform:scale(0.96)}
+.pill.a-active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.fw-scroll{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:.75rem}
+.fw-btn{padding:6px 12px;border-radius:99px;border:0.5px solid #DDD;background:#fff;color:#555;font-size:12px;cursor:pointer;white-space:nowrap}
+.fw-btn:active{transform:scale(0.96)}
+.fw-btn.f-active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.use-bar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.75rem;padding:9px 12px;background:#F5F4F2;border-radius:10px;border:0.5px solid #EEE}
+.use-tag{padding:3px 9px;border-radius:99px;font-size:11px;font-weight:500}
+.u-purple{background:#EEEDFE;color:#3C3489}
+.u-teal{background:#E1F5EE;color:#085041}
+.u-coral{background:#FAECE7;color:#712B13}
+.u-amber{background:#FAEEDA;color:#633806}
+.u-blue{background:#E6F1FB;color:#0C447C}
+.u-pink{background:#FBEAF0;color:#72243E}
+.use-title{font-size:11px;font-weight:500;color:#777;margin-right:4px;align-self:center;white-space:nowrap}
+.panel{border:0.5px solid #EEE;border-radius:14px;background:#fff;padding:1.1rem;margin-bottom:.75rem;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.ph{display:flex;align-items:flex-start;gap:10px;margin-bottom:.75rem}
+.ph-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.ph-title{font-size:15px;font-weight:600;color:#1A1A1A}
+.ph-sub{font-size:12px;color:#777;margin-top:2px}
+.ph-when{font-size:12px;color:#999;margin-top:4px;line-height:1.55}
+.step{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;border-radius:10px;border:0.5px solid #EEE;background:#FAFAF9;margin-bottom:6px}
+.step.cur{border-color:#7F77DD;background:#EEEDFE}
+.snum{min-width:22px;height:22px;border-radius:50%;background:#CECBF6;color:#3C3489;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step.cur .snum{background:#7F77DD;color:#fff}
+.sk{font-size:11px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.04em}
+.sc{font-size:13px;color:#1A1A1A;margin-top:2px}
+.sit-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.sc-chip{padding:4px 10px;border-radius:99px;border:0.5px solid #DDD;font-size:12px;color:#666;cursor:pointer}
+.sc-chip.s-active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.ex-box{border-left:3px solid #7F77DD;border-radius:0 10px 10px 0;padding:10px 13px;margin:1rem 0;background:#EEEDFE}
+.ex-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:#534AB7}
+.ex-text{font-size:13px;line-height:1.7;color:#1A1A1A}
+.ex-key{color:#534AB7;font-weight:600}
+.ctx-tabs{display:flex;gap:6px;margin-bottom:.75rem}
+.ctx-tab{flex:1;padding:9px;border-radius:10px;border:0.5px solid #DDD;background:#fff;color:#555;font-size:13px;font-weight:500;cursor:pointer;text-align:center}
+.ctx-tab.ct-active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.big-btn{width:100%;padding:12px;border-radius:10px;border:0.5px solid #AFA9EC;background:#7F77DD;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px}
+.big-btn:active{background:#534AB7}
+.nav-row{display:flex;gap:8px}
+.nav-btn{flex:1;padding:10px;border-radius:10px;border:0.5px solid #DDD;background:#fff;color:#1A1A1A;font-size:12px;cursor:pointer}
+.nav-btn:disabled{opacity:.35}
+.badge{display:inline-block;padding:2px 7px;border-radius:99px;font-size:10px;font-weight:600;margin-left:5px}
+.b-e{background:#EAF3DE;color:#27500A}
+.b-m{background:#FAEEDA;color:#633806}
+.b-h{background:#FAECE7;color:#712B13}
+.done-wrap{text-align:center;padding:1.5rem 1rem}
+.done-e{font-size:40px;margin-bottom:8px}
+.done-t{font-size:17px;font-weight:600;margin-bottom:5px}
+.done-s{font-size:13px;color:#777;margin-bottom:14px}
+.divider{height:0.5px;background:#EEE;margin:.75rem 0}
+.footer-note{text-align:center;font-size:11px;color:#bbb;padding:1rem 0}
+.practice-box{margin:1rem 0}
+.practice-toggle{display:flex;gap:6px;margin-bottom:8px}
+.ptab{flex:1;padding:8px;border-radius:10px;border:0.5px solid #DDD;background:#fff;color:#666;font-size:12px;font-weight:600;cursor:pointer;text-align:center}
+.ptab.pt-active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.practice-input{width:100%;min-height:80px;border:0.5px solid #DDD;border-radius:10px;padding:10px;font-size:14px;font-family:inherit;color:#1A1A1A;resize:vertical;background:#FAFAF9}
+.practice-input:focus{outline:none;border-color:#7F77DD;background:#fff}
+.mic-row{display:flex;gap:8px;margin-top:8px;align-items:center}
+.mic-btn{padding:10px 14px;border-radius:10px;border:0.5px solid #DDD;background:#fff;color:#1A1A1A;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+.mic-btn.listening{background:#FAECE7;border-color:#F0997B;color:#712B13;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.check-btn{flex:1;padding:10px;border-radius:10px;border:0.5px solid #AFA9EC;background:#EEEDFE;color:#3C3489;font-size:13px;font-weight:600;cursor:pointer}
+.feedback-card{margin-top:10px;border-radius:12px;padding:12px 14px;border:0.5px solid #EEE}
+.fb-great{background:#EAF3DE;border-color:#A8D08A}
+.fb-okay{background:#FAEEDA;border-color:#EF9F27}
+.fb-needswork{background:#FAECE7;border-color:#F0997B}
+.fb-header{font-size:13px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.fb-great .fb-header{color:#27500A}
+.fb-okay .fb-header{color:#633806}
+.fb-needswork .fb-header{color:#712B13}
+.fb-list{font-size:12px;line-height:1.6;color:#333;margin:0;padding-left:18px}
+.fb-next{font-size:12px;margin-top:8px;padding-top:8px;border-top:0.5px solid rgba(0,0,0,0.08);font-weight:600}
+.deeper-btn{width:100%;margin-top:8px;padding:9px;border-radius:10px;border:0.5px solid #AFA9EC;background:#fff;color:#3C3489;font-size:12px;font-weight:600;cursor:pointer}
+.deeper-note{font-size:10px;color:#999;text-align:center;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="app-header">
+    <h1>🎯 Speech Frameworks for Leaders</h1>
+    <p>Car hauling supervisor &amp; mission group leader scenarios</p>
+  </div>
+  <div id="app"></div>
+  <div class="footer-note">Real-world leadership communication 💼</div>
+</div>
+<script>
+const ROLES=["Car hauling leader","Mission group leader"];
+const SITS={
+  "Car hauling leader":["driver briefing","dispatch issue","client complaint","safety violation","team performance","policy change","conflict between drivers","recognition & praise"],
+  "Mission group leader":["team devotion","member struggling","casting vision","conflict in team","welcoming newcomers","reporting to leadership","motivating the group","celebrating impact"]
+};
+
+const FWS=[
+  {id:"isaw",icon:"👀",name:"I SAW",diff:"easy",desc:"Open a conversation by stating what you personally observed",
+   usecases:[{label:"Open a debrief",color:"u-teal"},{label:"Set context",color:"u-blue"},{label:"Build awareness",color:"u-purple"},{label:"Start a coaching talk",color:"u-coral"}],
+   when:"Use this to open a debrief, set context before feedback, or ground a conversation in something you personally observed rather than hearsay.",
+   steps:[
+     {key:"I saw...",prompt:"Describe a specific, observable thing you witnessed — no interpretation yet."},
+     {key:"It was...",prompt:"Characterize what you saw objectively and specifically."},
+     {key:"I felt...",prompt:"Name the professional impact or concern it raised for you as a leader."}
+   ],
+   ex:{
+     "driver briefing":{carhauling:["I saw","three trucks leave the yard without completing the pre-trip checklist this morning.","It was","a pattern I've noticed three days in a row now.","I felt","concerned — because one missed check is a liability, and three days is a habit forming."],mission:["I saw","our morning prayer time cut shorter and shorter each week.","It was","a gradual drift we've all normalized without realizing it.","I felt","a quiet concern that we may be losing the foundation that holds everything else together."]},
+     "dispatch issue":{carhauling:["I saw","two loads rerouted last-minute with no communication to the driver until he was already en route.","It was","a breakdown that cost us two hours and a frustrated client.","I felt","it was important we address the communication chain immediately."],mission:["I saw","a task get reassigned without the original person being told.","It was","confusing and demoralizing for the team member involved.","I felt","we need to look at how we communicate changes in responsibility."]},
+     "client complaint":{carhauling:["I saw","the client's message — they said the vehicle arrived with a fresh scratch not noted on the condition report.","It was","a serious accountability gap.","I felt","we owe them a same-day response and a clear resolution plan."],mission:["I saw","the feedback from the partner church — they felt our team showed up unprepared.","It was","a trust issue, not just a logistics one.","I felt","we need to respond with humility and a real plan, not just an apology."]},
+     "safety violation":{carhauling:["I saw","a driver loading a vehicle over the rated weight limit on Unit 7 this afternoon.","It was","a direct safety violation with serious liability implications.","I felt","we need to address this today — not next week."],mission:["I saw","two members going into an unsafe neighborhood alone, against our buddy-system policy.","It was","exactly the kind of situation our policy exists to prevent.","I felt","a responsibility to address this directly and firmly — because my job is to bring everyone home safe."]},
+     "team performance":{carhauling:["I saw","our on-time delivery rate drop from 94% to 87% over the last two weeks.","It was","not a random dip — it tracks directly to the routing changes we made.","I felt","we need to revisit that decision with the full team before it costs us a contract."],mission:["I saw","engagement at our weekly sessions drop significantly over the past month.","It was","noticeable — fewer questions, less eye contact, earlier exits.","I felt","something is off in the team's energy that we need to name and address together."]},
+     "policy change":{carhauling:["I saw","the new DOT compliance rule take effect last week.","It was","a significant change to how we log rest hours.","I felt","we needed to get everyone trained on this before the next inspection — not after."],mission:["I saw","the new partnership guidelines come through from the regional office.","It was","a shift in how we're expected to document and report our outreach activities.","I felt","we should walk through this together as a team before it catches us off guard."]},
+     "conflict between drivers":{carhauling:["I saw","the tension between two drivers spill into the yard this morning in front of three other drivers.","It was","unprofessional and disruptive to everyone around them.","I felt","I needed to step in — not to assign blame, but to stop it from becoming a culture problem."],mission:["I saw","the disagreement between two team members get personal in our last planning meeting.","It was","uncomfortable for everyone in the room — and unresolved.","I felt","it's my responsibility to address it privately with both of them before it fractures the team."]},
+     "recognition & praise":{carhauling:["I saw","one of our drivers complete six flawless runs this week with zero damage reports and two client compliments.","It was","exactly the standard we're trying to build across the whole operation.","I felt","it deserved to be said out loud — in front of everyone."],mission:["I saw","a team member stay two hours after our event to help a struggling family — completely on her own initiative.","It was","quiet, unasked-for, and exactly the spirit this mission is built on.","I felt","that kind of service deserves to be named and celebrated."]}
+   }
+  },
+  {id:"whowhat",icon:"🗺️",name:"WHO + WHAT",diff:"easy",desc:"Report quickly: who was involved, and what happened",
+   usecases:[{label:"Report",color:"u-blue"},{label:"Brief someone fast",color:"u-teal"},{label:"Escalate an issue",color:"u-coral"},{label:"Hand off info",color:"u-purple"}],
+   when:"Use this for quick status reports, fast briefings, escalating an issue to someone above you, or handing off information when time is short.",
+   steps:[
+     {key:"Who?",prompt:"Identify the key person, team, or party involved."},
+     {key:"What happened?",prompt:"State the action or event clearly and factually."}
+   ],
+   ex:{
+     "driver briefing":{carhauling:["Who?","Driver on Route 12.","What happened?","Reported a check-engine light at the first fuel stop — pulled over safely and called it in immediately."],mission:["Who?","Our newest volunteer team.","What happened?","Completed their first solo setup for the food distribution without needing backup support."]},
+     "dispatch issue":{carhauling:["Who?","Dispatch and the client's receiving warehouse.","What happened?","Miscommunicated the delivery window by two hours, causing the driver to wait outside the gate."],mission:["Who?","The event coordinator and the venue contact.","What happened?","Confirmed the wrong start time, so half the team arrived an hour early."]},
+     "client complaint":{carhauling:["Who?","A long-term client, Westside Auto Group.","What happened?","Called to report a vehicle delivered with undocumented interior damage."],mission:["Who?","Our partner organization's site director.","What happened?","Sent written feedback saying our volunteers seemed disorganized at last week's event."]},
+     "safety violation":{carhauling:["Who?","A driver on the overnight shift.","What happened?","Loaded a unit over the rated weight limit and proceeded without flagging it."],mission:["Who?","Two team members at Saturday's outreach.","What happened?","Entered a restricted area alone, against our buddy-system safety policy."]},
+     "team performance":{carhauling:["Who?","The entire delivery team.","What happened?","On-time rate dropped from 94% to 86% over the past three weeks."],mission:["Who?","Our volunteer base.","What happened?","Retention dropped 30% this quarter — fewer people returning after their first event."]},
+     "policy change":{carhauling:["Who?","Federal DOT regulators.","What happened?","Issued new hours-of-service logging requirements effective this month."],mission:["Who?","Our regional leadership office.","What happened?","Released new reporting and accountability standards for all mission teams."]},
+     "conflict between drivers":{carhauling:["Who?","Two senior drivers, Marcus and Dev.","What happened?","Had a heated disagreement over load assignments that spilled into the yard."],mission:["Who?","Two long-standing team leaders.","What happened?","Publicly disagreed about the direction of a key outreach initiative during planning."]},
+     "recognition & praise":{carhauling:["Who?","One of our newer drivers.","What happened?","Completed 14 consecutive runs with zero damage and three unsolicited client compliments."],mission:["Who?","A quiet, consistent volunteer.","What happened?","Personally discipled three new members who all became core contributors."]}
+   }
+  },
+  {id:"star",icon:"⭐",name:"STAR",diff:"medium",desc:"Report outcomes with situation, task, action, and result",
+   usecases:[{label:"Report to leadership",color:"u-blue"},{label:"Team debrief",color:"u-teal"},{label:"Performance review",color:"u-coral"},{label:"Share a case study",color:"u-purple"},{label:"Training story",color:"u-amber"}],
+   when:"Use this to report outcomes to leadership, debrief a project with your team, present a case study, or structure a training story that shows real decision-making.",
+   steps:[
+     {key:"S — Situation",prompt:"Describe the business or ministry context objectively."},
+     {key:"T — Task",prompt:"State the specific responsibility or goal you were accountable for."},
+     {key:"A — Action",prompt:"Explain the specific leadership decisions and actions you took."},
+     {key:"R — Result",prompt:"State measurable outcomes and key takeaways for the organization."}
+   ],
+   ex:{
+     "driver briefing":{carhauling:["S —","We had a new route added mid-week with no advance notice from the client.","T —","I needed to brief four drivers on last-minute changes without disrupting the morning schedule.","A —","I called a 10-minute stand-up at 6am, redistributed loads based on proximity, and updated dispatch in real time.","R —","All four loads delivered on time. Zero client escalations. I've since made the 6am stand-up a standard practice."],mission:["S —","We had a new outreach event added to our calendar with only 48 hours notice.","T —","I needed to brief the full team, assign roles, and secure supplies without overwhelming anyone.","A —","I sent a clear one-page role sheet, held a 15-minute call, and personally followed up with two newer members.","R —","The event ran smoothly. Three team members said it was the most organized last-minute event we'd ever done."]},
+     "dispatch issue":{carhauling:["S —","A driver was given the wrong pickup address and arrived at an empty lot 40 minutes from the actual location.","T —","Resolve the situation without losing the load or the client relationship.","A —","I called the client immediately, rerouted the driver, offered a discount on the next shipment, and documented the dispatch error.","R —","The load was delivered two hours late. The client accepted the apology and has since re-booked. I updated our dispatch verification protocol."],mission:["S —","A volunteer showed up to the wrong venue for our community dinner — there were two locations with similar names.","T —","Resolve the confusion and make sure the event still ran with adequate support.","A —","I redirected her via phone, covered her station temporarily, and after the event updated our communication template with clearer location details.","R —","The event ran without visible disruption. The volunteer felt supported, not blamed. The template change has prevented two similar issues since."]},
+     "client complaint":{carhauling:["S —","A high-value client called to report a vehicle arrived with a dent not listed on the condition report.","T —","Investigate, respond, and protect the client relationship without admitting liability prematurely.","A —","I pulled the pre-load photos, contacted the driver, had a manager call the client within two hours, and initiated our damage review process.","R —","The review confirmed the dent was pre-existing. We shared the documentation. The client apologized and renewed their contract. Trust restored."],mission:["S —","A partner organization reached out to say our volunteers had arrived unprepared at their site.","T —","Understand what went wrong, respond with accountability, and repair the partnership.","A —","I called their coordinator personally, listened without defending, identified the preparation gap on our side, and sent a revised briefing protocol.","R —","The partner appreciated the directness. We completed two more joint events successfully. The relationship is now stronger than before the incident."]},
+     "safety violation":{carhauling:["S —","A driver was observed loading a vehicle significantly over the unit's rated weight capacity.","T —","Address the violation immediately, prevent recurrence, and document properly.","A —","I stopped the load, had the vehicle re-inspected, met privately with the driver, issued a documented warning, and ran a weight compliance refresher for the full team.","R —","No DOT citations. The driver completed the refresher and has had a clean record since. The team now treats weight limits as non-negotiable."],mission:["S —","Two team members went into a high-risk area without a partner, violating our safety protocol.","T —","Address it directly, reinforce the policy, and ensure no one feels it's flexible.","A —","I met privately with both members, explained the non-negotiable nature of the buddy policy, and then reiterated it in the next team meeting without shaming them publicly.","R —","The policy has been respected consistently since. One of the two members later told me the private conversation helped them understand the 'why' behind the rule."]},
+     "team performance":{carhauling:["S —","Our on-time delivery rate dropped from 94% to 87% over two weeks following a routing software change.","T —","Identify root cause and restore performance metrics before a client review.","A —","I analyzed the dispatch logs, identified three recurring delay points tied to the new routing algorithm, and worked with dispatch to override those segments manually.","R —","Rate recovered to 93% within one week. I flagged the software issue to the vendor. A patch was issued the following month."],mission:["S —","Volunteer retention had dropped 30% over one quarter — people were signing up but not returning.","T —","Understand the cause and rebuild a team that actually stays.","A —","I conducted brief exit conversations with five departing members, identified a lack of personal connection as the core issue, and restructured our onboarding to include a mentor pairing for every new volunteer.","R —","Retention improved significantly in the following quarter. Three former volunteers returned. The mentor program is now permanent."]},
+     "policy change":{carhauling:["S —","New federal hours-of-service regulations took effect, changing how drivers log mandatory rest periods.","T —","Ensure full compliance across the fleet before the next DOT audit window.","A —","I created a one-page summary of the changes, held a mandatory briefing, updated our ELD training, and set up a compliance check in the first week.","R —","100% team compliance confirmed before the audit window. Zero violations cited. The one-page summary became our go-to format for all future regulatory updates."],mission:["S —","Our regional leadership issued new accountability and reporting standards for all mission teams.","T —","Help the team understand the changes without making it feel like extra bureaucracy.","A —","I translated the new requirements into plain language, showed the team how it would look in practice, and gave each person a specific role in the reporting process.","R —","Our first report under the new system was submitted early and was cited by regional leadership as a model for other teams."]},
+     "conflict between drivers":{carhauling:["S —","Two experienced drivers had an escalating disagreement over load assignments that came to a head in the yard.","T —","De-escalate, address the root issue, and prevent it from affecting team morale or operations.","A —","I separated them immediately, met with each privately to hear their perspective, identified a recurring fairness issue in load distribution, and convened a joint conversation with a revised assignment framework.","R —","The immediate conflict was resolved. The load distribution update reduced similar complaints by over 70% in the following month."],mission:["S —","Two long-standing team members had a public disagreement about the direction of a key outreach initiative.","T —","Resolve the conflict without taking sides, and use it to strengthen the team's decision-making process.","A —","I met with each person individually, affirmed both perspectives, then brought them together to find shared values — and built the next initiative around what they agreed on.","R —","The initiative they co-led together became one of our most successful. The conflict became the catalyst for a stronger collaboration."]},
+     "recognition & praise":{carhauling:["S —","One of our drivers completed 14 consecutive runs with zero damage reports, two client compliments, and consistent early arrival.","T —","Recognize the performance in a way that sets a standard, not just rewards an individual.","A —","I acknowledged him in the team meeting, shared the specific numbers, and asked him to speak briefly about his pre-trip routine so others could learn from it.","R —","Three other drivers adopted his pre-trip approach. Client satisfaction scores improved across the board that quarter."],mission:["S —","One team member had quietly discipled three new volunteers who all became core contributors over six months.","T —","Recognize the investment in a way that honors the person and inspires the team.","A —","I highlighted her work in our team meeting, asked her to share one thing she had learned about developing people, and gave her a formal mentorship role.","R —","Four more team members expressed interest in a mentorship role. Her approach became the foundation of our volunteer development model."]}
+   }
+  },
+  {id:"pep",icon:"📣",name:"PEP",diff:"medium",desc:"State your opinion, explain it, and prove it",
+   usecases:[{label:"Give an opinion",color:"u-coral"},{label:"Convince",color:"u-purple"},{label:"Defend an idea",color:"u-amber"},{label:"Team discussion",color:"u-blue"}],
+   when:"Use this when sharing your view in a leadership meeting, defending a decision, or contributing your opinion in a team discussion.",
+   steps:[
+     {key:"P — Point",prompt:"Articulate your position with precision."},
+     {key:"E — Explain",prompt:"Provide a logical, well-reasoned argument."},
+     {key:"P — Proof",prompt:"Cite specific evidence or a compelling case study."}
+   ],
+   ex:{
+     "driver briefing":{carhauling:["P —","I think our briefings should always start with safety, not logistics.","E —","People retain what they hear first, and safety needs to be the thing that's automatic, not an afterthought.","P (proof) —","Since we moved safety to the top of the agenda two months ago, near-miss reports dropped noticeably."],mission:["P —","I believe our briefings should open with one minute of silence before anything else.","E —","It resets the room from whatever everyone was rushing from, and centers us on why we're actually there.","P (proof) —","The weeks we've done this, the team has reported feeling more present and less scattered during the event itself."]},
+     "team performance":{carhauling:["P —","I think our biggest performance issue right now is communication, not skill.","E —","Almost every delay we've had traces back to information arriving too late, not someone doing the job wrong.","P (proof) —","Three of our last five late deliveries had nothing to do with driving — they were dispatch timing issues."],mission:["P —","I believe our drop in engagement is about burnout, not commitment.","E —","Tired people don't disengage because they stopped caring — they disengage because they have nothing left to give.","P (proof) —","Every person who's pulled back this month has also mentioned being stretched thin in other parts of their life."]},
+     "policy change":{carhauling:["P —","I support the new hours-of-service logging requirement, even though it adds a step.","E —","It protects our drivers legally and protects the company from liability in an audit.","P (proof) —","A competitor I know got hit with a six-figure fine last year for exactly the kind of logging gap this rule closes."],mission:["P —","I think the new reporting standard, while it feels like more paperwork, is actually good for us.","E —","It forces us to actually measure our impact instead of just feeling good about being busy.","P (proof) —","The one quarter we tracked outcomes closely, we discovered two of our events weren't actually reaching the people we intended to serve."]},
+     "client complaint":{carhauling:["P —","I think we should always assume good faith with a client complaint, even when we suspect they're wrong.","E —","The cost of being wrong about trusting them is much smaller than the cost of losing a long-term relationship over pride.","P (proof) —","The one time we pushed back hard on a complaint that turned out to be legitimate, we lost that account permanently."],mission:["P —","I believe every partner concern deserves a personal response, not an email.","E —","Partnerships are relationships first, logistics second — and people remember how they were treated, not just what was said.","P (proof) —","The partner who complained last quarter is now one of our strongest advocates, simply because we called instead of emailing."]},
+     "safety violation":{carhauling:["P —","I think safety violations need consistent consequences regardless of who's involved or how good their excuse is.","E —","The moment we make exceptions, the policy stops being a policy and becomes a suggestion.","P (proof) —","Our best driver had a violation last year. I held the same standard, and the team's respect for our safety culture actually increased."],mission:["P —","I believe our safety policies should never bend, even for trusted long-term members.","E —","The policy isn't about distrust — it's about removing the need for anyone to use judgment in a moment of pressure.","P (proof) —","The one time we made an exception for an experienced member, it normalized two other people doing the same thing the following month."]},
+     "conflict between drivers":{carhauling:["P —","I think most driver conflicts are actually about the system, not the people.","E —","Two reasonable people don't escalate over nothing — there's almost always a process gap underneath it.","P (proof) —","Every driver conflict we've had this year traced back to an unclear or inconsistent load assignment process."],mission:["P —","I believe conflict between leaders, handled well, actually makes the team stronger.","E —","It shows the rest of the team that disagreement doesn't have to mean division.","P (proof) —","The strongest initiative we ran last year came directly out of two leaders working through a real disagreement."]},
+     "casting vision":{carhauling:["P —","I think we should grow this year by deepening existing client relationships, not chasing new ones.","E —","Our top accounts came from referrals, which means we already have an underused growth engine.","P (proof) —","Three of our best clients came from one single relationship we never formally invested in."],mission:["P —","I believe we should set a specific numerical goal for people served this year.","E —","Vague intentions don't focus a team's energy the way a real number does.","P (proof) —","The one year we set a clear target, we exceeded our previous best by over 150%."]},
+     "recognition & praise":{carhauling:["P —","I think recognition should be specific and public, not just a quiet thank-you.","E —","Public, specific recognition sets a visible standard for the whole team, not just the individual.","P (proof) —","Since I started naming exact numbers in team meetings, three other drivers have adopted the same habits."],mission:["P —","I believe we should celebrate consistency, not just big wins.","E —","Most of what holds this mission together is quiet, unglamorous faithfulness — and that deserves to be seen.","P (proof) —","The volunteer I recognized for six months of quiet service told me it was the first time anyone had noticed."]}
+   }
+  },
+  {id:"prep",icon:"💡",name:"PREP",diff:"hard",desc:"Make a structured argument: position, reason, evidence, restate",
+   usecases:[{label:"Pitch to ownership",color:"u-purple"},{label:"Propose a change",color:"u-amber"},{label:"Justify a decision",color:"u-blue"},{label:"Lead a discussion",color:"u-teal"},{label:"Cast vision",color:"u-coral"}],
+   when:"Use this when proposing a policy change, justifying a business decision, pitching an investment to ownership, or leading a vision-casting discussion with your team.",
+   steps:[
+     {key:"P — Position",prompt:"State your recommendation or position clearly and without hedging."},
+     {key:"R — Reason",prompt:"Give the primary business or ministry reason behind your position."},
+     {key:"E — Example",prompt:"Support with data, a case study, or a specific outcome you've seen."},
+     {key:"P — Position again",prompt:"Close with a clear, confident call to action or restatement of the recommendation."}
+   ],
+   ex:{
+     "driver briefing":{carhauling:["P —","We need to move our pre-trip inspection to 30 minutes earlier, effective next Monday.","R —","Our last three late departures all traced back to issues caught at inspection with no buffer time to resolve them.","E —","Last Tuesday, a tire pressure issue found at 6:58am caused a 45-minute delay on a time-sensitive load — and we nearly lost the client.","P —","Moving to 6:30am inspections gives us the buffer we need. I'd like your commitment on this starting Monday."],mission:["P —","I believe we need to restructure our weekly team briefing to include a 10-minute personal check-in before we move to logistics.","R —","Teams that feel personally known show up more consistently and serve more effectively.","E —","When we did this informally before our last campaign, attendance at subsequent sessions increased by 40%.","P —","I'm proposing we make personal check-in a permanent part of how we begin every meeting. It costs ten minutes and returns engagement."]},
+     "client complaint":{carhauling:["P —","We need a same-day client response protocol for any damage claim — regardless of fault.","R —","The time between a complaint and our response is what determines whether we keep the client, not the complaint itself.","E —","Our only client loss this year came not from the damage — it came from the 48-hour silence that followed it.","P —","I'm requesting approval to implement a 4-hour response SLA for all damage claims, starting immediately."],mission:["P —","When a partner organization raises a concern, I believe our first response should always be a personal phone call, not an email.","R —","Partnership is relational — and a phone call communicates that we value the relationship over our own comfort.","E —","After our last partner concern, I called within two hours. They said it was the first time a ministry partner had responded that way — and they doubled their commitment to our collaboration.","P —","I'm proposing we formalize the personal call as standard protocol for all partner feedback, positive or critical."]},
+     "policy change":{carhauling:["P —","I'm recommending we adopt a two-driver verification system on all loads over $50,000 in vehicle value.","R —","A single-point check creates liability exposure that our current insurance doesn't fully cover.","E —","Industry data shows that two-point verification reduces condition dispute claims by over 60%.","P —","The cost is minimal. The liability protection is significant. I'd like approval to pilot this on our premium accounts for 60 days."],mission:["P —","I'm recommending we implement a written volunteer agreement for every new team member.","R —","Clarity upfront prevents the most common sources of conflict and disappointment — unmet expectations.","E —","Every team conflict we've had in the last two years came down to someone not understanding their role or commitment level when they joined.","P —","A one-page written agreement, signed at onboarding, would have prevented most of them. I'd like to introduce this starting next month."]},
+     "team performance":{carhauling:["P —","Our current routing software is costing us more than it's saving — and I believe we need to evaluate alternatives.","R —","Since the upgrade, our average delivery time has increased by 18 minutes per load and driver complaints have tripled.","E —","A competitor using a different platform reports 12% fewer late deliveries and 20% lower fuel spend on comparable routes.","P —","I'm requesting 30 days to evaluate two alternative platforms before we renew our current contract."],mission:["P —","I believe we need to reduce the number of events we run this quarter and go deeper on fewer initiatives.","R —","We are spreading our team too thin, and the quality of our impact is suffering as a result.","E —","Last month we ran four events in three weeks. Volunteer satisfaction dropped, two people burned out, and our follow-up with the people we served was inadequate.","P —","I'm proposing we commit to two high-quality events this quarter, with full team capacity on each one."]},
+     "recognition & praise":{carhauling:["P —","I want to formalize a quarterly recognition system tied to measurable performance standards.","R —","Our best drivers have no consistent way to be acknowledged — and that invisibility is the number one reason good people leave.","E —","We lost two of our top three drivers last year. Both cited feeling undervalued in their exit conversations.","P —","A quarterly recognition system tied to on-time rate, damage reports, and client feedback would cost almost nothing and retain the people who make us profitable."],mission:["P —","I believe we need to build celebration into our team culture as a regular practice, not just for big wins.","R —","Volunteers who feel seen and celebrated stay longer, serve better, and recruit others.","E —","The teams with the highest retention in our network all have one thing in common: they celebrate consistently and specifically — not just when something major happens.","P —","I'm proposing we end every team meeting with one specific celebration, no matter how small. It will change the room."]},
+     "casting vision":{carhauling:["P —","I believe our company can double our premium accounts within 18 months — without adding fleet.","R —","We already have the route infrastructure and driver quality. What we lack is a systematic approach to retaining and upgrading existing clients.","E —","Our top three clients generate 40% of our revenue. They came through referrals from one relationship. We have 12 more relationships of that quality we've never formally developed.","P —","With a structured client development plan, we can grow from the inside. I'd like the team to help me build that plan."],mission:["P —","I believe this team has the capacity to reach 1,000 people this year — and I want us to commit to that together.","R —","We've never set a number before. But teams with a clear, shared goal outperform teams with good intentions and no target.","E —","Last year, without a goal, we served 340 people. The year we set a specific outreach target — three years ago — we hit 890. A number changes how we plan, how we ask, and how we show up.","P —","I'm asking us to commit to 1,000 this year. Not as pressure. As a shared declaration of what we believe is possible."]},
+     "motivating the group":{carhauling:["P —","I want to be direct: I believe this team is capable of a clean quarter — zero damage claims, zero DOT violations.","R —","We've come close twice. What stopped us both times was not skill — it was consistency on the days we felt like cutting corners.","E —","Our best quarter had a 98.7% clean rate. The difference between that and 100% was three decisions — all made in moments of rushing.","P —","This quarter, I'm asking each of you to make the careful choice in those moments. I believe we can do this. Let's do it together."],mission:["P —","I want to remind this team why we started — because I think some of us need to hear it right now.","R —","We didn't build this team to be busy. We built it to change lives — and the evidence is everywhere around us that it's working.","E —","Two months ago, Maria came to our meal program alone. Last week she brought her neighbor and asked if she could volunteer. That is why we are here.","P —","When the work feels heavy, remember Maria. Remember why we started. That's the mission — and it's worth every hard day."]},
+     "welcoming newcomers":{carhauling:["P —","I want every new driver we hire to feel operational — not overwhelmed — within their first two weeks.","R —","A driver who feels confident early stays longer, makes fewer mistakes, and becomes part of the culture faster.","E —","Our last two hires who had a structured 14-day onboarding buddy both hit their performance benchmarks in week three. The three before them, who didn't, took six weeks or more.","P —","I'm formalizing the buddy onboarding as standard. Every new hire gets a designated experienced driver for their first 14 days."],mission:["P —","I believe how we welcome someone in their first two visits determines whether they become part of this team long-term.","R —","First impressions are not just emotional — they set expectations about belonging, about whether their presence matters here.","E —","Of our last ten long-term volunteers, nine said someone personally followed up with them after their first visit. Of those who came once and never returned, almost none received a personal follow-up.","P —","I'm asking everyone to take personal responsibility for following up with one new face after every event. Just one. That follow-up is the mission."]}
+   }
+  },
+  {id:"soar",icon:"🦅",name:"SOAR",diff:"hard",desc:"Tell a dramatic story showing how you led through a real challenge",
+   usecases:[{label:"Inspire the team",color:"u-coral"},{label:"All-hands speech",color:"u-purple"},{label:"Show resilience",color:"u-teal"},{label:"Leadership talk",color:"u-blue"}],
+   when:"Use this when you want to inspire or motivate your team in a speech, all-hands meeting, or leadership talk — showing how you or the team overcame something genuinely hard.",
+   steps:[
+     {key:"S — Situation",prompt:"Establish the context with vivid, specific detail."},
+     {key:"O — Obstacle",prompt:"Articulate the core challenge with precision."},
+     {key:"A — Action",prompt:"Describe the deliberate choices and actions you took."},
+     {key:"R — Result",prompt:"What changed — and what did this reveal about the team?"}
+   ],
+   ex:{
+     "team performance":{carhauling:["S —","Three weeks ago, our on-time rate had collapsed to 81% and we were one client review away from losing a major account.","O —","The drop wasn't one bad week — it was a routing change none of us fully understood the consequences of, and morale was sliding with the numbers.","A —","I pulled every dispatch log personally, found the three choke points, brought the whole team into the fix instead of solving it alone, and we manually overrode the worst routes while the vendor patched the software.","R —","We were back to 93% within a week. But what mattered more was that the team solved it together — and now we troubleshoot as a unit instead of waiting for me to fix things."],mission:["S —","Three months ago, our volunteer retention had dropped 30% in a single quarter — people were showing up once and never coming back.","O —","It would have been easy to blame people for not caring. The harder truth was that we had built a machine for recruiting, not a place for belonging.","A —","I sat down with five people who'd left, heard the same thing five times, and rebuilt our onboarding around one simple idea: every new person gets a person, not just a task.","R —","Retention turned around the following quarter. But the deeper result was a team that finally understood that the mission isn't the event — it's the person standing next to you at it."]},
+     "safety violation":{carhauling:["S —","I had a driver — one of my best — load a unit over the rated weight limit, and he wasn't trying to cut corners. He was just trying to hit a deadline I'd set.","O —","I had to hold the line on safety while also taking ownership of the pressure I'd put on him that contributed to the decision.","A —","I addressed the violation directly and documented it — but I also told him, and the whole team, that I was changing how I communicate deadlines so that speed never competes with safety again.","R —","The violation was corrected. But the bigger result was a team that trusts me more, not less — because they saw a leader hold a standard and hold himself accountable in the same conversation."],mission:["S —","Two team members broke our buddy-system policy during an outreach in a part of town we knew carried real risk.","O —","I had to address it seriously without shaming two people who I knew had good intentions and just made a poor decision in the moment.","A —","I met with them privately first, then addressed the policy with the whole team — not as a punishment, but as a reminder that my job is to bring everyone home.","R —","The policy has held firm since. And one of those two members later told me that conversation was the moment she understood that the rules exist because someone cares, not because someone doesn't trust her."]},
+     "casting vision":{carhauling:["S —","Two years ago, we were a company that took whatever load came in, with no real plan for growth beyond surviving the month.","O —","We had good drivers and good equipment, but no vision — and a team that had stopped believing we could be more than we were.","A —","I sat the team down, showed them the numbers nobody had looked at together before, and we built a real plan: deepen our best client relationships instead of chasing every new one.","R —","Eighteen months later, our premium accounts have grown by 60%. But the real change is a team that now believes this company is going somewhere — because they helped build the map."],mission:["S —","Four years ago, we served 200 people a year with no real sense of whether we were making a difference or just staying busy.","O —","Without a goal, our energy was scattered, and honestly, some of us were quietly burning out chasing motion instead of impact.","A —","I asked the team to commit to a real number — not a guess, a goal — and we built our entire year's calendar around reaching it with intention instead of activity.","R —","We hit 890 people that year, more than four times our previous best. But the deeper result was a team that learned the difference between being busy and being faithful to a purpose."]}
+   }
+  },
+  {id:"sbi",icon:"🎯",name:"SBI",diff:"medium",desc:"Give feedback clearly using situation, behavior, and impact",
+   usecases:[{label:"Performance feedback",color:"u-teal"},{label:"Coaching conversation",color:"u-purple"},{label:"Disciplinary talk",color:"u-coral"},{label:"Peer conflict",color:"u-amber"}],
+   when:"Use this for any feedback conversation — performance reviews, corrective coaching, peer conflict mediation, or addressing behavior that is affecting the team or the mission. It keeps you objective and non-personal.",
+   steps:[
+     {key:"S — Situation",prompt:"State the specific time, place, or context — no generalizations."},
+     {key:"B — Behavior",prompt:"Describe the observable behavior precisely — what you saw or heard, not your interpretation of it."},
+     {key:"I — Impact",prompt:"Describe the specific impact on the team, the operation, the client, or the mission."}
+   ],
+   ex:{
+     "driver briefing":{carhauling:["S —","At this morning's 6am departure,","B —","you left the yard without completing the pre-trip inspection form or having it signed off.","I —","If that vehicle had a mechanical issue on the route, we would have had no documentation — and full liability exposure."],mission:["S —","At last Thursday's team briefing,","B —","you arrived 20 minutes late and interrupted the session twice without acknowledging the disruption.","I —","It broke the group's focus at a critical planning point and communicated to the rest of the team that the time commitment isn't serious."]},
+     "dispatch issue":{carhauling:["S —","During Tuesday's 11am dispatch,","B —","you updated the pickup address in the system without notifying the driver who was already en route.","I —","He drove 40 minutes in the wrong direction. We delivered late, issued a discount, and the client called to express concern about our communication processes."],mission:["S —","During our Sunday outreach preparation,","B —","you reassigned a role to another volunteer without informing the original person.","I —","She showed up prepared for a role she no longer had. She was visibly hurt, and it created awkwardness that affected the whole team's dynamic that day."]},
+     "safety violation":{carhauling:["S —","At 2:15pm on Wednesday on the loading dock,","B —","you loaded a vehicle onto Unit 7 after the weight gauge showed 200 pounds over the rated limit — and proceeded anyway.","I —","That decision put you, the vehicle, and other drivers at risk. It also exposes the company to a DOT violation that could cost us our operating authority."],mission:["S —","During last Saturday's community event,","B —","you entered a restricted building with a group of participants before the site coordinator had cleared it for us.","I —","We were nearly asked to leave the premises. It would have ended the event and damaged a relationship we spent months building."]},
+     "team performance":{carhauling:["S —","Over the past three weeks,","B —","your on-time delivery rate has dropped from 96% to 81%, and you've submitted three incomplete condition reports.","I —","This has resulted in two client follow-up calls and one formal complaint. It's also affecting how dispatch prioritizes your loads, which impacts your income."],mission:["S —","Over the past month,","B —","you've missed two of four team meetings and submitted your volunteer hour logs three weeks late.","I —","It's made it difficult for me to report accurately to regional leadership, and other team members have noticed and commented on the inconsistency."]},
+     "conflict between drivers":{carhauling:["S —","This morning in the yard, in front of six other drivers,","B —","you and Marcus exchanged heated words about the load assignment and refused to de-escalate when asked.","I —","It created a tense environment for the whole team, delayed two departures, and is now something I have to document — which affects both of you professionally."],mission:["S —","During our planning meeting last Wednesday,","B —","you interrupted your co-leader three times and dismissed two of her suggestions with visible frustration in front of the full team.","I —","She came to me afterward feeling undermined. Two other members said they're hesitant to contribute ideas now. The team's psychological safety took a real hit."]},
+     "member struggling":{carhauling:["S —","Over the past two weeks,","B —","I've noticed you've been quieter than usual, arriving later, and your paperwork has had more errors than I've seen from you in two years.","I —","I'm not raising this as a performance issue right now — I'm raising it because I know these patterns don't come from nowhere, and I want to check in as your supervisor."],mission:["S —","Over the past few weeks,","B —","I've noticed you've pulled back from team conversations, declined two serving opportunities, and seem less present than usual.","I —","I'm not concerned about your performance. I'm concerned about you — as a person — and I wanted to make sure you know I see it and I'm here."]},
+     "recognition & praise":{carhauling:["S —","Over the past quarter,","B —","you've completed every run on time, submitted clean condition reports on every load, and received three unsolicited client compliments by name.","I —","That level of consistency sets a standard for this entire operation. It's the kind of professionalism that keeps clients — and I want you to know it doesn't go unnoticed."],mission:["S —","Over the past six months,","B —","you've shown up early, stayed late, mentored two newer volunteers, and never once asked for recognition.","I —","That quiet, consistent faithfulness is the backbone of this team. And I want you to hear it said clearly: what you do here matters, and it does not go unseen."]}
+   }
+  },
+  {id:"wwsnw",icon:"🔄",name:"WHAT / SO WHAT / NOW WHAT",diff:"hard",desc:"Lead a debrief from facts, to meaning, to action",
+   usecases:[{label:"Post-event debrief",color:"u-teal"},{label:"After-action review",color:"u-blue"},{label:"Strategic pivot",color:"u-purple"},{label:"Quarterly review",color:"u-amber"}],
+   when:"Use this to lead a team debrief after a project, event, or incident — or in any structured review where you want to move from 'what happened' to 'what we're doing differently.'",
+   steps:[
+     {key:"WHAT?",prompt:"State the facts of what occurred — objectively, without blame or interpretation."},
+     {key:"SO WHAT?",prompt:"Analyze why this matters to the operation, the team, or the mission — and what it reveals."},
+     {key:"NOW WHAT?",prompt:"State the specific, actionable change you or the team will make as a result."}
+   ],
+   ex:{
+     "driver briefing":{carhauling:["WHAT?","Three drivers this week departed without completing their pre-trip inspection forms.","SO WHAT?","Pre-trip documentation is our first line of legal protection — and without it, we have no defense in a damage dispute or DOT audit.","NOW WHAT?","Starting Monday, no truck leaves the yard without a signed inspection form. Dispatch will hold departure confirmation until it's received. I'll check compliance daily for the first two weeks."],mission:["WHAT?","Our last three team briefings started 15 or more minutes late.","SO WHAT?","Late starts compress our planning time, signal that the meeting isn't a priority, and set a culture of looseness that eventually affects the work itself.","NOW WHAT?","We start on time — even with two people. Those who arrive late will be caught up by a team member, not by backtracking the whole group. I'll model this myself starting this week."]},
+     "client complaint":{carhauling:["WHAT?","We received a formal complaint from a long-term client about a vehicle delivered with an undocumented scratch.","SO WHAT?","Whether or not the damage was pre-existing, the fact that our condition report didn't capture it means we lost the argument before it started — and nearly lost the client.","NOW WHAT?","Every condition report now requires 360-degree photo documentation uploaded to the client portal before departure. No exceptions. I'll audit the first 20 to ensure compliance."],mission:["WHAT?","A partner organization submitted written feedback saying our team arrived disorganized and underprepared for the joint event.","SO WHAT?","Our reputation with partners determines our access. If partner organizations don't trust our preparation, they stop inviting us — and our reach shrinks.","NOW WHAT?","Every joint event now requires a pre-event coordination call with the partner at least 72 hours out and a written role sheet distributed to all team members 24 hours before. I'll own this personally for the next three events."]},
+     "safety violation":{carhauling:["WHAT?","A driver exceeded the rated weight limit on a transport unit this week. It was caught before departure but only by chance.","SO WHAT?","This wasn't a close call in isolation — it's a sign that our weight verification step is being treated as optional, and that's a DOT citation and an injury waiting to happen.","NOW WHAT?","Weight verification is now a two-person sign-off. The loader and the driver both confirm and sign. I'm adding it to the inspection form this week and briefing the team on Friday."],mission:["WHAT?","Two team members violated our buddy-system safety policy during last Saturday's outreach.","SO WHAT?","The policy exists because something happened before it was created. When we treat it as optional, we are gambling with people's safety — and our credibility as a responsible organization.","NOW WHAT?","I will restate the buddy policy at every event briefing and make adherence a condition of continued participation. This is not negotiable, and I'll communicate that clearly and consistently."]},
+     "team performance":{carhauling:["WHAT?","Our on-time delivery rate dropped from 94% to 86% over the past month.","SO WHAT?","An 8-point drop isn't noise — it's a trend. At that rate, we risk losing two contracts that are up for renewal in Q4, which represents roughly 30% of our monthly revenue.","NOW WHAT?","I'm pulling the dispatch logs for the past 30 days to identify the top three delay causes. We'll address the highest-impact one first. I want a recovery plan drafted by end of week and a 90% target restored within three weeks."],mission:["WHAT?","Volunteer retention dropped by 35% this quarter — people are joining but not returning after the first or second event.","SO WHAT?","Retention is the mission's sustainability. Every volunteer we lose represents a relationship that didn't form, and recruiting to replace them costs us two to three times the energy of keeping them.","NOW WHAT?","I'm implementing a personal follow-up within 48 hours of every first-time volunteer's involvement. I'm also creating a simple 3-event onboarding pathway so new people have a clear sense of belonging before they're expected to fully commit."]},
+     "conflict between drivers":{carhauling:["WHAT?","Two drivers had a public conflict in the yard over load assignments that required direct intervention.","SO WHAT?","Unresolved driver conflict affects morale, creates unsafe distraction, and — if not addressed at the root — will resurface with more people involved.","NOW WHAT?","I've met with both individually. I'm also reviewing our load assignment process because this conflict had a legitimate trigger — the process needs to be more transparent. I'll present a revised system to the team next week."],mission:["WHAT?","A visible disagreement between two team leaders in a planning meeting left the broader team uncomfortable and the initiative stalled.","SO WHAT?","When leaders conflict publicly without resolution, the team loses confidence — not just in those leaders, but in the mission's ability to hold together under pressure.","NOW WHAT?","I've met with both leaders privately. Going forward, disagreements between leaders are resolved in a private conversation before they enter the room. I'm also scheduling a team values conversation to rebuild shared ground."]},
+     "casting vision":{carhauling:["WHAT?","We ended last year at 78% fleet utilization — below our 85% target.","SO WHAT?","That gap represents significant unrealized revenue — and it's not a capacity problem. It's a sales and client retention problem we've been calling a capacity problem.","NOW WHAT?","This year we're shifting focus from fleet expansion to client retention and referral development. I'm setting a 90% utilization target and building a quarterly client review process to get us there. I'll share the full plan at next week's team meeting."],mission:["WHAT?","Last year we served 340 people across 12 events. We had the capacity for more — but no clear target to aim for.","SO WHAT?","Without a shared goal, we plan reactively, recruit inconsistently, and celebrate vaguely. A goal gives us a shape. It tells us what to say yes to — and what to say no to.","NOW WHAT?","This year our goal is 600 people served through intentional, high-quality touchpoints. I'm asking each team leader to take ownership of 150 of those. We'll track it monthly, celebrate milestones, and adjust as we learn."]},
+     "welcoming newcomers":{carhauling:["WHAT?","We hired three new drivers in the past six weeks. Two have already given informal feedback that they feel unclear on expectations in the first month.","SO WHAT?","Unclear expectations in the first 30 days are the number one predictor of early turnover — and early turnover is our most expensive recruitment cost.","NOW WHAT?","I'm formalizing a 30-day onboarding checklist with clear milestones, a designated buddy driver, and a week-two check-in conversation with me directly. First implementation starts with the next hire."],mission:["WHAT?","We've had 14 new volunteers show up to events in the past two months. Only 4 have returned.","SO WHAT?","A 70% single-visit rate means we are great at attracting people and poor at connecting them. We are creating enthusiasm without creating belonging.","NOW WHAT?","Every new volunteer now gets a personal follow-up call or message within 48 hours, an invitation to the next event, and an introduction to one existing team member by name. Simple — and it changes everything."]}
+   }
+  },
+  {id:"fab",icon:"✨",name:"FAB",diff:"medium",desc:"Feature + Advantage + Benefit — explain value clearly",
+   usecases:[{label:"Pitch a tool or system",color:"u-blue"},{label:"Justify a purchase",color:"u-amber"},{label:"Propose an upgrade",color:"u-purple"},{label:"Recommend to ownership",color:"u-teal"}],
+   when:"Use this when proposing a new tool, system, hire, or process change — especially when you need to connect the feature of something to the specific benefit for the decision-maker.",
+   steps:[
+     {key:"F — Feature",prompt:"Name the specific feature, capability, or quality of what you're proposing."},
+     {key:"A — Advantage",prompt:"Explain what that feature enables or makes possible for your operation or team."},
+     {key:"B — Benefit",prompt:"State the concrete business or ministry benefit — ideally tied to cost, time, risk, or growth."}
+   ],
+   ex:{
+     "driver briefing":{carhauling:["F —","This new fleet management app sends drivers their full route, load details, and client notes the evening before departure.","A —","Drivers arrive at briefing already informed — eliminating the 20 minutes we currently spend reviewing basics.","B —","That's 20 minutes back per driver per day. Across eight drivers, five days a week — that's over 13 hours of recovered productive time weekly."],mission:["F —","This team communication app allows us to send role assignments, location details, and event notes to all volunteers in one tap.","A —","Every team member arrives informed and prepared — without a single phone tree or repeated text thread.","B —","Our last three events where we used it had zero 'I didn't know' moments and a 30% reduction in late arrivals."]},
+     "policy change":{carhauling:["F —","Our new two-driver condition verification protocol requires both the loader and the driver to sign off on the vehicle condition report before departure.","A —","It creates a documented, witnessed confirmation — so no single person bears full accountability for condition disputes.","B —","In industries using this protocol, damage claim disputes drop by over 60%. For us, that means fewer chargebacks, fewer client conflicts, and lower liability exposure."],mission:["F —","Our new written volunteer commitment form outlines the role, time expectations, and team values for every new member at onboarding.","A —","It replaces the assumption that people know what's expected with a shared, signed understanding from day one.","B —","Every unresolved conflict we've had in the past two years traced back to misaligned expectations. This one document prevents most of them."]},
+     "team performance":{carhauling:["F —","This route analytics platform tracks delivery performance in real time and flags delay patterns by driver, route, and time of day.","A —","Instead of reviewing last month's data in a meeting, we can see today's patterns and intervene before they become this week's complaints.","B —","Fleet operators using real-time analytics report an average 15% improvement in on-time rates within 60 days. For our current contract structure, that's the difference between renewal and renegotiation."],mission:["F —","This volunteer management platform tracks attendance, roles, and follow-up status for every member across every event.","A —","Instead of spreadsheets and memory, we have a live view of who's engaged, who's drifting, and who needs a personal reach-out.","B —","Teams using structured retention tracking report 40–60% improvement in volunteer return rates. For us, that means fewer recruitment cycles and more experienced, confident people doing the work."]},
+     "client complaint":{carhauling:["F —","Our new 360-degree pre-load photo documentation system automatically timestamps and uploads condition photos to a shared client portal before departure.","A —","Both we and the client have real-time access to the same verified condition record — before, during, and after transport.","B —","It eliminates he-said-she-said damage disputes entirely. Our last two condition complaints resolved in under 24 hours once clients saw the timestamped photos. No discounts. No escalations."],mission:["F —","Our new post-event partner debrief form gives partner organizations a structured, easy way to share feedback within 48 hours of every joint event.","A —","We hear concerns while they're still actionable — not in a formal complaint three weeks later.","B —","Partners who feel heard are significantly more likely to re-engage. Since implementing this, every partner that completed a debrief has invited us back."]},
+     "casting vision":{carhauling:["F —","A structured quarterly client review program — a brief call or visit with each account to assess satisfaction, anticipate needs, and offer relevant services.","A —","It transforms us from a vendor they call when they need a load, to a logistics partner they trust with their planning.","B —","Client retention is five times less expensive than client acquisition. If this program retains even two mid-tier accounts per year, it more than pays for the time invested — and it builds the referral network that brought in our best accounts."],mission:["F —","A six-month discipleship pathway for new volunteers — structured growth conversations, shared reading, and increasing responsibility.","A —","It moves people from event-by-event participation to genuine ownership of the mission's direction and growth.","B —","Volunteers who go through a structured growth pathway are three times more likely to stay long-term and twice as likely to recruit others. We stop losing people to drift — and start multiplying leaders from within."]},
+     "safety violation":{carhauling:["F —","A digital pre-departure safety checklist that requires photographic confirmation of key inspection points before the system releases the route.","A —","It makes skipping the inspection technically impossible — not just against policy.","B —","When compliance is built into the workflow rather than left to individual discipline, violation rates drop to near zero. For us, that means zero DOT citations, lower insurance premiums, and a defensible record if we're ever audited."],mission:["F —","A digital event check-in system that requires every volunteer to log their buddy assignment and location before the event officially opens.","A —","The buddy system becomes part of the launch sequence — not an afterthought.","B —","When a safety protocol is embedded in the process rather than posted on a wall, adherence goes from 60% to near 100%. Our team members stay safe — and we stay credible as an organization that takes our duty of care seriously."]},
+     "recognition & praise":{carhauling:["F —","A quarterly driver performance recognition system tied to three measurable standards: on-time rate, damage-free runs, and client feedback scores.","A —","Recognition becomes specific, earned, and predictable — not random or personality-based.","B —","Employees who receive specific, criteria-based recognition are significantly more likely to sustain high performance and less likely to leave. We retain the drivers who make us excellent — and signal to everyone else exactly what excellence looks like here."],mission:["F —","A monthly team celebration practice — one specific story of impact shared at every meeting, tied to a named volunteer's contribution.","A —","It makes the mission visible and personal — not abstract — and it connects individual effort to collective outcome.","B —","Teams with a regular celebration culture retain volunteers at significantly higher rates and attract higher-quality recruits. Recognition is not a bonus — it is a retention strategy. And for a volunteer team, retention is everything."]},
+     "welcoming newcomers":{carhauling:["F —","A 14-day structured onboarding program pairing each new driver with an experienced buddy and a clear weekly milestone checklist.","A —","New drivers know exactly what's expected, have someone to ask without judgment, and reach competence faster.","B —","Structured onboarding reduces early turnover by up to 50% in logistics environments. Every driver we retain past 90 days saves us the cost of recruiting and training a replacement — which, fully loaded, runs between $3,000 and $5,000 per hire."],mission:["F —","A three-touchpoint new volunteer welcome sequence: a personal message within 24 hours, an invitation to a team gathering within the first two weeks, and a buddy introduction at their second event.","A —","New volunteers feel seen as people, not just resources — before they've even decided if they're staying.","B —","Organizations that implement structured welcome sequences see first-to-second event conversion rates double or triple. For us, that means the energy we invest in recruitment actually translates into a team — not just a list."]}
+   }
+  }
+];
+
+let selRole="Car hauling leader";
+let selCtx="carhauling";
+let selFwId="isaw";
+let selSit="driver briefing";
+let step=0;
+let done=false;
+
+// Rubric hints per framework id — adapted for adult leadership communication
+const RUBRIC={
+  isaw:{minWords:8,stepHints:[
+    {label:"states a specific, observable fact",check:t=>t.length>6},
+    {label:"characterizes it objectively",check:t=>t.length>5},
+    {label:"names the professional impact or concern",check:t=>/concern|impact|risk|liability|important|need|matter/i.test(t)||t.length>10}
+  ]},
+  whowhat:{minWords:5,stepHints:[
+    {label:"identifies the specific person, team, or party",check:t=>t.length>2},
+    {label:"states the action or event factually",check:t=>t.split(" ").length>=3}
+  ]},
+  star:{minWords:8,stepHints:[
+    {label:"describes the context objectively",check:t=>t.length>5},
+    {label:"states the specific responsibility or goal",check:t=>t.length>5},
+    {label:"explains the specific decision or action taken",check:t=>/\bi\b/i.test(t)},
+    {label:"states a measurable outcome",check:t=>/%|\d|increase|decrease|reduce|improve|result/i.test(t)||t.length>10}
+  ]},
+  pep:{minWords:8,stepHints:[
+    {label:"articulates a clear position",check:t=>t.length>5},
+    {label:"provides a logical rationale",check:t=>/because|since|reason|due to/i.test(t)||t.length>10},
+    {label:"cites specific evidence",check:t=>/%|\d|last|since|when/i.test(t)||t.length>8}
+  ]},
+  prep:{minWords:9,stepHints:[
+    {label:"states the recommendation clearly, without hedging",check:t=>t.length>5},
+    {label:"gives the primary business/ministry reason",check:t=>/because|since|reason/i.test(t)||t.length>10},
+    {label:"supports with data or a specific case",check:t=>/%|\d|last|since|when/i.test(t)||t.length>8},
+    {label:"closes with a clear call to action",check:t=>/propos|request|recommend|asking|approval/i.test(t)||t.length>6}
+  ]},
+  soar:{minWords:9,stepHints:[
+    {label:"establishes vivid, specific context",check:t=>t.length>6},
+    {label:"articulates the core challenge precisely",check:t=>/hard|difficult|challenge|risk|problem/i.test(t)||t.length>6},
+    {label:"describes the deliberate leadership action",check:t=>/\bi\b/i.test(t)},
+    {label:"states what changed and what it revealed",check:t=>t.length>6}
+  ]},
+  sbi:{minWords:7,stepHints:[
+    {label:"states the specific time/place objectively",check:t=>t.length>5},
+    {label:"describes observable behavior, not interpretation",check:t=>t.length>5},
+    {label:"describes the specific impact",check:t=>/impact|affect|result|cost|risk|client|team/i.test(t)||t.length>8}
+  ]},
+  wwsnw:{minWords:8,stepHints:[
+    {label:"states facts objectively, without blame",check:t=>t.length>5},
+    {label:"analyzes why it matters to the operation/mission",check:t=>t.length>6},
+    {label:"states a specific, actionable change",check:t=>/will|going to|starting|implement|require/i.test(t)||t.length>8}
+  ]},
+  fab:{minWords:8,stepHints:[
+    {label:"names a specific feature or capability",check:t=>t.length>5},
+    {label:"explains what it enables operationally",check:t=>t.length>5},
+    {label:"states a concrete benefit tied to cost/time/risk/growth",check:t=>/cost|time|risk|growth|revenue|save|reduce|increase/i.test(t)||t.length>8}
+  ]}
+};
+
+let inputMode="type";
+let recognizing=false;
+let recognitionObj=null;
+let lastFeedback=null;
+
+function getFw(){return FWS.find(f=>f.id===selFwId)||FWS[0];}
+function getSits(){return SITS[selRole];}
+function getEx(){
+  const fw=getFw();
+  const sits=Object.keys(fw.ex);
+  const sit=fw.ex[selSit]||fw.ex[sits[0]];
+  return sit?(sit[selCtx]||sit[Object.keys(sit)[0]]):null;
+}
+
+function render(){
+  const fw=getFw();
+  const ex=getEx();
+  const sits=getSits();
+  if(!sits.includes(selSit)) selSit=sits[0];
+
+  let h=`
+  <div class="sect-label">Your role</div>
+  <div class="row">${ROLES.map(r=>`<button class="pill ${r===selRole?"a-active":""}" onclick="sRole('${r}')">${r}</button>`).join("")}</div>
+  <div class="ctx-tabs">
+    <button class="ctx-tab ${selCtx==="carhauling"?"ct-active":""}" onclick="sCtx('carhauling')">🚛 Car hauling</button>
+    <button class="ctx-tab ${selCtx==="mission"?"ct-active":""}" onclick="sCtx('mission')">🙏 Mission group</button>
+  </div>
+  <div class="sect-label">Framework</div>
+  <div class="fw-scroll">${FWS.map(f=>`<button class="fw-btn ${f.id===selFwId?"f-active":""}" onclick="sFw('${f.id}')">${f.icon} ${f.name}</button>`).join("")}</div>
+  <div class="use-bar">
+    <span class="use-title">Use when you want to:</span>
+    ${fw.usecases.map(u=>`<span class="use-tag ${u.color}">${u.label}</span>`).join("")}
+  </div>
+  <div class="sect-label">Situation</div>
+  <div class="sit-row">${sits.map(s=>`<div class="sc-chip ${s===selSit?"s-active":""}" onclick="sSit('${s}')">${s}</div>`).join("")}</div>`;
+
+  if(done){
+    h+=`<div class="panel"><div class="done-wrap">
+      <div class="done-e">🎉</div>
+      <div class="done-t">Well done!</div>
+      <div class="done-s">Practiced <strong>${fw.name}</strong> · ${selSit} · ${selRole}</div>
+      <button class="nav-btn" style="margin-top:8px" onclick="reset()">Try again ↺</button>
+    </div></div>`;
+  } else {
+    h+=`<div class="panel">
+      <div class="ph">
+        <div class="ph-icon">${fw.icon}</div>
+        <div>
+          <div class="ph-title">${fw.name} <span class="badge b-${fw.diff}">${fw.diff}</span></div>
+          <div class="ph-sub">${fw.desc}</div>
+          <div class="ph-when">${fw.when}</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      ${fw.steps.map((s,i)=>`<div class="step ${i===step?"cur":""}">
+        <div class="snum">${i+1}</div>
+        <div><div class="sk">${s.key}</div>${i===step?`<div class="sc">${s.prompt}</div>`:""}</div>
+      </div>`).join("")}`;
+
+    if(ex){
+      h+=`<div class="ex-box">
+        <div class="ex-label">Example · "${selSit}" · ${selCtx==="carhauling"?"Car hauling":"Mission group"}</div>
+        <div class="ex-text">${(()=>{let o="";for(let i=0;i<ex.length;i+=2){o+=`<span class="ex-key">${ex[i]}</span> ${ex[i+1]}${i+2<ex.length?" &nbsp;·&nbsp; ":""}`;}return o;})()}</div>
+      </div>`;
+    } else {
+      h+=`<div class="ex-box"><div class="ex-text">No example written yet for this situation in this framework.</div></div>`;
+    }
+
+    h+=`<div class="practice-box">
+        <div class="sect-label">Your turn — draft step ${step+1}</div>
+        <div class="practice-toggle">
+          <button class="ptab ${inputMode==="type"?"pt-active":""}" onclick="setInputMode('type')">⌨️ Type it</button>
+          <button class="ptab ${inputMode==="speak"?"pt-active":""}" onclick="setInputMode('speak')">🎤 Say it</button>
+        </div>
+        <textarea class="practice-input" id="practiceInput" placeholder="${inputMode==="speak"?"Tap the mic and speak — your words will appear here.":"Draft what you'd say for this step..."}"></textarea>
+        ${inputMode==="speak"?`<div class="mic-row"><button class="mic-btn ${recognizing?"listening":""}" id="micBtn" onclick="toggleMic()">${recognizing?"⏹️ Stop":"🎤 Tap to speak"}</button></div>`:""}
+        <div class="mic-row">
+          <button class="check-btn" onclick="checkPractice()">✓ Check my draft</button>
+        </div>
+        <div id="feedbackArea"></div>
+      </div>
+      <button class="big-btn" onclick="nxt()">${step<fw.steps.length-1?"Next step →":"Finish ✓"}</button>
+      <div class="nav-row">
+        <button class="nav-btn" onclick="prv()" ${step===0?"disabled":""}>← Back</button>
+        <button class="nav-btn" onclick="reset()">↺ Reset</button>
+      </div>
+    </div>`;
+  }
+  document.getElementById("app").innerHTML=h;
+}
+
+function sRole(r){selRole=r;selSit=getSits()[0];step=0;done=false;lastFeedback=null;render();}
+function sCtx(c){selCtx=c;lastFeedback=null;render();}
+function sFw(id){selFwId=id;step=0;done=false;lastFeedback=null;render();}
+function sSit(s){selSit=s;lastFeedback=null;render();}
+function nxt(){const fw=getFw();lastFeedback=null;if(step<fw.steps.length-1){step++;render();}else{done=true;render();}}
+function prv(){lastFeedback=null;if(step>0){step--;render();}}
+function reset(){step=0;done=false;lastFeedback=null;render();}
+
+function setInputMode(m){
+  inputMode=m;
+  if(recognizing) stopMic();
+  render();
+  setTimeout(()=>{const el=document.getElementById("practiceInput"); if(el) el.focus();},50);
+}
+
+function toggleMic(){
+  if(recognizing){ stopMic(); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    alert("Speech recognition isn't supported in this browser yet. Try typing instead, or use Safari/Chrome on your phone.");
+    return;
+  }
+  recognitionObj = new SR();
+  recognitionObj.lang = 'en-US';
+  recognitionObj.interimResults = true;
+  recognitionObj.continuous = true;
+
+  let finalText = document.getElementById("practiceInput") ? document.getElementById("practiceInput").value : "";
+
+  recognitionObj.onresult = (event)=>{
+    let interim = "";
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      const transcript = event.results[i][0].transcript;
+      if(event.results[i].isFinal){ finalText += transcript + " "; }
+      else { interim += transcript; }
+    }
+    const el = document.getElementById("practiceInput");
+    if(el) el.value = (finalText + interim).trim();
+  };
+  recognitionObj.onerror = ()=>{ stopMic(); };
+  recognitionObj.onend = ()=>{ if(recognizing){ recognizing=false; render(); } };
+
+  recognizing = true;
+  render();
+  setTimeout(()=>{ try{ recognitionObj.start(); }catch(e){} },50);
+}
+
+function stopMic(){
+  if(recognitionObj){ try{ recognitionObj.stop(); }catch(e){} }
+  recognizing=false;
+  render();
+}
+
+function checkPractice(){
+  const el = document.getElementById("practiceInput");
+  const text = el ? el.value.trim() : "";
+  const fw = getFw();
+  const rubric = RUBRIC[fw.id];
+  const fbArea = document.getElementById("feedbackArea");
+
+  if(!text){
+    fbArea.innerHTML = `<div class="feedback-card fb-needswork"><div class="fb-header">✏️ Nothing drafted yet</div><ul class="fb-list"><li>Type your draft, or tap the mic and speak it, then check again.</li></ul></div>`;
+    return;
+  }
+
+  const words = text.split(/\s+/).filter(Boolean);
+  const wordCount = words.length;
+  const minWords = rubric.minWords || 8;
+  const hint = rubric.stepHints[step] || rubric.stepHints[0];
+  const hintPassed = hint.check(text);
+  const longEnough = wordCount >= minWords;
+
+  let level, headerEmoji, headerText, items=[], nextStep;
+
+  if(longEnough && hintPassed){
+    level="great"; headerEmoji="✅"; headerText="Strong draft";
+    items.push("Clear, specific, and substantive — this would land well in the room.");
+    items.push(`Your draft ${hint.label}, which is exactly what this step requires.`);
+    nextStep="Move to the next step — this one is ready to use as-is or close to it.";
+  } else if(longEnough && !hintPassed){
+    level="okay"; headerEmoji="🟡"; headerText="Solid length, needs sharper focus";
+    items.push("You've given enough detail — the substance is there.");
+    items.push(`Tighten it so it clearly ${hint.label}. Right now that part is implied rather than stated.`);
+    nextStep="Revisit the example above, then revise so this requirement is explicit, not assumed.";
+  } else if(!longEnough && hintPassed){
+    level="okay"; headerEmoji="🟡"; headerText="Right idea, underdeveloped";
+    items.push(`Good — your draft already ${hint.label}.`);
+    items.push("It's currently too brief to land with full weight in a real conversation. Add specifics — names, numbers, or a concrete detail.");
+    nextStep="Expand with one more concrete detail, then re-check.";
+  } else {
+    level="needswork"; headerEmoji="🔴"; headerText="Needs more before this is ready";
+    items.push("This is a reasonable starting point, but it's not yet ready to deliver.");
+    items.push(`Revise so the draft clearly ${hint.label}.`);
+    items.push(`Aim for at least ${minWords} words — enough to carry real substance in a leadership conversation.`);
+    nextStep="Re-read the example above closely, then rewrite this step from scratch.";
+  }
+
+  lastFeedback = {level, fwName: fw.name, stepKey: getFw().steps[step].key, text, items, nextStep};
+
+  fbArea.innerHTML = `
+    <div class="feedback-card fb-${level}">
+      <div class="fb-header">${headerEmoji} ${headerText}</div>
+      <ul class="fb-list">${items.map(i=>`<li>${i}</li>`).join("")}</ul>
+      <div class="fb-next">Next step: ${nextStep}</div>
+    </div>
+    <button class="deeper-btn" onclick="openDeeperFeedback()">🤖 Want more detailed feedback? Ask Claude</button>
+    <div class="deeper-note">Opens Claude.ai in a new tab with your draft ready to go</div>
+  `;
+}
+
+function openDeeperFeedback(){
+  if(!lastFeedback) return;
+  const fw = getFw();
+  const prompt = `I'm practicing the ${fw.name} speech framework as a ${selRole} (context: ${selCtx==="carhauling"?"car hauling operations":"mission group leadership"}), situation: "${selSit}". For the step "${lastFeedback.stepKey}", I drafted: "${lastFeedback.text}". Can you give me direct, constructive feedback like a leadership coach would — one thing that's working, one specific thing to sharpen, and a tighter rewrite of this line if helpful?`;
+  const url = "https://claude.ai/new?q=" + encodeURIComponent(prompt);
+  window.open(url, "_blank");
+}
+
+render();
+</script>
+</body>
+</html>
